@@ -9,7 +9,7 @@ import {
   Map,
   PieChart,
   Settings2,
-  SquareTerminal,
+  LayoutGrid,
 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -50,14 +50,13 @@ const data = {
   ],
   navMain: [
     {
-      title: "Playground",
+      title: "Category",
       url: "#",
-      icon: SquareTerminal,
+      icon: LayoutGrid,
       isActive: true,
       items: [
-        { title: "History", url: "#" },
-        { title: "Starred", url: "#" },
-        { title: "Settings", url: "#" },
+        { title: "Add Category", url: "/add-category" },
+        { title: "Product List", url: "#" },
       ],
     },
     {
