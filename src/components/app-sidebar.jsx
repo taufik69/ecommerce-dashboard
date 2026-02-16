@@ -56,7 +56,7 @@ const data = {
       isActive: true,
       items: [
         { title: "Add Category", url: "/add-category" },
-        { title: "Product List", url: "#" },
+        { title: "Product List", url: "/product-list" },
       ],
     },
     {
