@@ -10,6 +10,7 @@ import {
   PieChart,
   Settings2,
   LayoutGrid,
+  Home,
 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -50,13 +51,20 @@ const data = {
   ],
   navMain: [
     {
+      title: "Home",
+      url: "#",
+      icon: Home,
+      isActive: true,
+      items: [{ title: "Home", url: "/home" }],
+    },
+    {
       title: "Category",
       url: "#",
       icon: LayoutGrid,
       isActive: true,
       items: [
         { title: "Add Category", url: "/add-category" },
-        { title: "Product List", url: "/product-list" },
+        { title: "Category List", url: "/category-list" },
       ],
     },
     {

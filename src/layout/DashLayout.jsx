@@ -24,7 +24,7 @@ function DashboardLayout() {
         </SidebarInset>
 
         {/* Main content */}
-        <main className="mt-17 flex-wrap ">
+        <main className="mt-15 flex-wrap pr-1">
           <Outlet />
         </main>
 

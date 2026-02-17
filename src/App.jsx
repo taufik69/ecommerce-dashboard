@@ -11,12 +11,13 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<DashboardLayout />}>
+          <Route path="/home" element={<Page />}/>
           <Route path="add-category" element={<AddCategory />} />
-          <Route path="product-list" element={<ProductList />} />
+          <Route path="category-list" element={<ProductList />} />
           <Route
             path="*"
             element={
-              <div className="flex items-center justify-center min-h-screen dark:bg-gray-900">
+              <div className="flex items-center justify-center min-h-screen ">
                 <h1 className="text-4xl font-bold text-center text-red-500 dark:text-red-400">
                   404 Page Not Found
                 </h1>
