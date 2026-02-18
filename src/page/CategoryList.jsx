@@ -1,4 +1,5 @@
 import { deleteCategory, getCategory } from "@/api/api";
+import { Edit2, Trash2 } from "lucide-react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
@@ -24,7 +25,7 @@ const CategoryTable = () => {
     });
   };
 
-  if (isPending) return <div>Loading...</div>;
+  if (isPending) return <div className="p-5 text-center">Loading Categories...</div>;
   if (isError) return <div>Failed to fetch categories</div>;
 
   return (
@@ -118,17 +119,15 @@ const CategoryTable = () => {
                           onClick={() => handleEdit(cat)}
                           className="px-3 py-2 rounded-lg text-sm font-semibold bg-blue-600 text-white hover:bg-blue-700 transition"
                         >
-                          Edit
+                          <Edit2 size={16} />
                         </button>
-
+                          
                         <button
                           disabled={categoryDeleteMutation.isPending}
                           onClick={() => handleDelete(cat.slug)}
                           className="px-3 py-2 rounded-lg text-sm font-semibold bg-red-600 text-white hover:bg-red-700 transition disabled:opacity-60"
                         >
-                          {categoryDeleteMutation.isPending
-                            ? "Deleting..."
-                            : "Delete"}
+                          <Trash2 size={16} />
                         </button>
                       </div>
                     </td>

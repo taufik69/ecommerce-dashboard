@@ -1,4 +1,5 @@
 import { createProduct , getCategory } from "@/api/api";
+import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 
 const AddProduct = () => {
@@ -6,7 +7,11 @@ const AddProduct = () => {
   const productMutate = createProduct();
 
   // fetch categories for dropdown
-  const { data: categoryData, isLoading: categoryLoading } = getCategory();
+  const { data: categoryData, isLoading: categoryLoading } = useQuery({
+    queryKey: ["categories"],
+    queryFn: getCategory,
+  });
+
 
   const [formData, setFormData] = useState({
     name: "",
@@ -121,77 +126,77 @@ const AddProduct = () => {
     }
 
     // payload
-    // const payload = new FormData();
+    const payload = new FormData();
 
-    // payload.append("name", formData.name.trim());
-    // payload.append("brand", formData.brand.trim());
-    // payload.append("sku", formData.sku.trim());
-    // payload.append("shortDescription", formData.shortDescription.trim());
-    // payload.append("description", formData.description.trim());
-    // payload.append("category", formData.category.trim());
-    // payload.append("price", Number(formData.price));
-    // payload.append("discountType", formData.discountType);
+    payload.append("name", formData.name.trim());
+    payload.append("brand", formData.brand.trim());
+    payload.append("sku", formData.sku.trim());
+    payload.append("shortDescription", formData.shortDescription.trim());
+    payload.append("description", formData.description.trim());
+    payload.append("category", formData.category.trim());
+    payload.append("price", Number(formData.price));
+    payload.append("discountType", formData.discountType);
 
-    // if (formData.discountValue) {
-    //   payload.append("discountValue", Number(formData.discountValue));
-    // }
+    if (formData.discountValue) {
+      payload.append("discountValue", Number(formData.discountValue));
+    }
 
-    // payload.append("stock", Number(formData.stock));
+    payload.append("stock", Number(formData.stock));
 
-    // if (formData.totalReviews) {
-    //   payload.append("totalReviews", Number(formData.totalReviews));
-    // }
+    if (formData.totalReviews) {
+      payload.append("totalReviews", Number(formData.totalReviews));
+    }
 
-    // payload.append("isNew", formData.isNew ? "true" : "false");
-    // payload.append("isSale", formData.isSale ? "true" : "false");
-    // payload.append("isLimited", formData.isLimited ? "true" : "false");
-    // payload.append("isHot", formData.isHot ? "true" : "false");
-    // payload.append("isFeatured", formData.isFeatured ? "true" : "false");
-    // payload.append("isBestSelling", formData.isBestSelling ? "true" : "false");
+    payload.append("isNew", formData.isNew ? "true" : "false");
+    payload.append("isSale", formData.isSale ? "true" : "false");
+    payload.append("isLimited", formData.isLimited ? "true" : "false");
+    payload.append("isHot", formData.isHot ? "true" : "false");
+    payload.append("isFeatured", formData.isFeatured ? "true" : "false");
+    payload.append("isBestSelling", formData.isBestSelling ? "true" : "false");
 
-    // colorsArray.forEach((color) => payload.append("color[]", color));
-    // sizesArray.forEach((size) => payload.append("size[]", size));
-    // formData.image.forEach((image) => payload.append("image", image));
+    colorsArray.forEach((color) => payload.append("color[]", color));
+    sizesArray.forEach((size) => payload.append("size[]", size));
+    formData.image.forEach((image) => payload.append("image", image));
 
-    // productMutate.mutate(payload, {
-    //   onSuccess: (data) => {
-    //     console.log("API Success:", data);
+    productMutate.mutate(payload, {
+      onSuccess: (data) => {
+        console.log("API Success:", data);
 
-    //     setFormData({
-    //       name: "",
-    //       brand: "",
-    //       sku: "",
-    //       shortDescription: "",
-    //       description: "",
-    //       category: "",
-    //       price: "",
-    //       discountType: "fixed",
-    //       discountValue: "",
-    //       stock: "",
-    //       totalReviews: "",
-    //       isNew: false,
-    //       isSale: false,
-    //       isLimited: false,
-    //       isHot: false,
-    //       isFeatured: false,
-    //       isBestSelling: false,
-    //       color: "",
-    //       size: "",
-    //       image: [],
-    //     });
+        setFormData({
+          name: "",
+          brand: "",
+          sku: "",
+          shortDescription: "",
+          description: "",
+          category: "",
+          price: "",
+          discountType: "fixed",
+          discountValue: "",
+          stock: "",
+          totalReviews: "",
+          isNew: false,
+          isSale: false,
+          isLimited: false,
+          isHot: false,
+          isFeatured: false,
+          isBestSelling: false,
+          color: "",
+          size: "",
+          image: [],
+        });
 
-    //     setImagePreviews([]);
-    //   },
-    //   onError: (error) => {
-    //     console.log("API Error:", error);
-    //   },
-    // });
+        setImagePreviews([]);
+      },
+      onError: (error) => {
+        console.log("API Error:", error);
+      },
+    });
 
     console.log("Submitting product:", formData);
   };
 
   return (
-    <div className="min-h-screen w-full flex justify-center items-start py-5 pr-10">
+    <div className="min-h-screen w-full flex justify-center items-start py-5 pr-5">
       <div className="w-full max-w-5xl backdrop-blur-xl border border-white/10 shadow-2xl rounded-3xl p-10">
         {/* Header */}
         <div className="mb-10 text-center">
@@ -220,7 +225,11 @@ const AddProduct = () => {
                   name={field.name}
                   value={formData[field.name]}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-xl bg-gray-900/60 border border-gray-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
+                  className={`w-full px-4 py-3 rounded-xl border ${
+                    error.name
+                      ? "border-red-500 focus:ring-red-500"
+                      : "border-gray-300 dark:border-gray-700"
+                  } bg-white dark:bg-gray-900/60 border border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition`}
                 />
                 {error[field.name] && (
                   <p className="text-red-400 text-sm mt-1">
@@ -240,7 +249,11 @@ const AddProduct = () => {
                 name="category"
                 value={formData.category}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl bg-gray-900/60 border border-gray-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
+                className={`w-full px-4 py-3 rounded-xl border ${
+                  error.category
+                    ? "border-red-500 focus:ring-red-500"
+                    : "border-gray-300 dark:border-gray-700"
+                } bg-white dark:bg-gray-900/60 border border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition`}
               >
                 <option value="">
                   {categoryLoading
@@ -248,7 +261,7 @@ const AddProduct = () => {
                     : "Select Category"}
                 </option>
 
-                {categoryData?.data?.data?.map((cat,index) => (
+                {categoryData?.data?.data?.map((cat, index) => (
                   <option key={index} value={cat._id}>
                     {cat.name}
                   </option>
@@ -276,7 +289,11 @@ const AddProduct = () => {
                   value={formData[field.name]}
                   onChange={handleChange}
                   rows={4}
-                  className="w-full px-4 py-3 rounded-xl bg-gray-900/60 border border-gray-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition resize-none"
+                  className={`w-full px-4 py-3 rounded-xl border ${
+                    error[field.name]
+                      ? "border-red-500 focus:ring-red-500"
+                      : "border-gray-300 dark:border-gray-700"
+                  } bg-white dark:bg-gray-900/60 border border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition`}
                 />
                 {error[field.name] && (
                   <p className="text-red-400 text-sm mt-1">
@@ -303,7 +320,11 @@ const AddProduct = () => {
                   name={field.name}
                   value={formData[field.name]}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-xl bg-gray-900/60 border border-gray-700 text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
+                  className={`w-full px-4 py-3 rounded-xl border ${
+                    error[field.name]
+                      ? "border-red-500 focus:ring-red-500"
+                      : "border-gray-300 dark:border-gray-700"
+                  } bg-white dark:bg-gray-900/60 border border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition`}
                 />
                 {error[field.name] && (
                   <p className="text-red-400 text-sm mt-1">
@@ -324,7 +345,11 @@ const AddProduct = () => {
                 name="discountType"
                 value={formData.discountType}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl bg-gray-900/60 border border-gray-700 text-white focus:ring-2 focus:ring-indigo-500 outline-none"
+                className={`w-full px-4 py-3 rounded-xl border ${
+                  error.discountType
+                    ? "border-red-500 focus:ring-red-500"
+                    : "border-gray-300 dark:border-gray-700"
+                } bg-white dark:bg-gray-900/60 border border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition`}
               >
                 <option value="fixed">Fixed</option>
                 <option value="percentage">Percentage</option>
@@ -340,7 +365,11 @@ const AddProduct = () => {
                 name="discountValue"
                 value={formData.discountValue}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl bg-gray-900/60 border border-gray-700 text-white focus:ring-2 focus:ring-indigo-500 outline-none"
+                className={`w-full px-4 py-3 rounded-xl border ${
+                  error.discountValue
+                    ? "border-red-500 focus:ring-red-500"
+                    : "border-gray-300 dark:border-gray-700"
+                } bg-white dark:bg-gray-900/60 border border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition`}
               />
               {error.discountValue && (
                 <p className="text-red-400 text-sm mt-1">
@@ -365,7 +394,11 @@ const AddProduct = () => {
                   name={field.name}
                   value={formData[field.name]}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-xl bg-gray-900/60 border border-gray-700 text-white focus:ring-2 focus:ring-indigo-500 outline-none"
+                  className={`w-full px-4 py-3 rounded-xl border ${
+                    error[field.name]
+                      ? "border-red-500 focus:ring-red-500"
+                      : "border-gray-300 dark:border-gray-700"
+                  } bg-white dark:bg-gray-900/60 border border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition`}
                 />
                 {error[field.name] && (
                   <p className="text-red-400 text-sm mt-1">
@@ -392,7 +425,11 @@ const AddProduct = () => {
               ].map((flag) => (
                 <label
                   key={flag}
-                  className="flex items-center gap-3 bg-gray-900/60 border border-gray-700 rounded-xl px-4 py-3 cursor-pointer hover:border-indigo-500 transition"
+                  className={`w-full px-4 py-3 rounded-xl border gap-3${
+                    error.name
+                      ? "border-red-500 focus:ring-red-500"
+                      : "border-gray-300 dark:border-gray-700"
+                  } bg-white dark:bg-gray-900/60 border border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition`}
                 >
                   <input
                     type="checkbox"
@@ -418,7 +455,11 @@ const AddProduct = () => {
               type="file"
               multiple
               onChange={handleImageChange}
-              className="w-full text-gray-400 file:bg-indigo-600 file:text-white file:border-0 file:px-4 file:py-2 file:rounded-lg file:cursor-pointer hover:file:bg-indigo-700"
+              className={`w-full px-4 py-3 rounded-xl border ${
+                error.image
+                  ? "border-red-500 focus:ring-red-500"
+                  : "border-gray-300 dark:border-gray-700"
+              } bg-white dark:bg-gray-900/60 border border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition`}
             />
 
             {error.image && (

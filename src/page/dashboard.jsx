@@ -1,7 +1,9 @@
 import { CircleDollarSign, ShoppingCartIcon, TagIcon, UserRound } from "lucide-react";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Page = () => {
+  const navigate = useNavigate();
   // Dummy data for now
   const kpiData = [
     {
@@ -147,10 +149,11 @@ const Page = () => {
 
       {/* Quick Actions */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
-        {["Add Product", "Add Category", "Manage Users", "View Orders"].map(
+        {["Add Product", "Add Category", "View Orders"].map(
           (action) => (
             <button
               key={action}
+              onClick={()=> action === "Add Product"? navigate("/add-product") : action === "Add Category"? navigate("/add-category") : navigate("/order-list")}
               className="bg-black dark:bg-gray-800 text-white dark:text-white rounded-lg py-4 px-2 font-semibold hover:bg-gray-800 dark:hover:bg-gray-700 transition"
             >
               {action}
