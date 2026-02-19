@@ -27,30 +27,16 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 
+const storedAdmin = localStorage.getItem("admin");
+const admin = storedAdmin ? JSON.parse(storedAdmin) : null;
+
 // Sample data
 const data = {
   user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+    name: admin?.name || "Admin",
+    email: admin?.email || "admin@gmail.com",
+    avatar: admin?.avatar || "/avatars/default.jpg",
   },
-  teams: [
-    {
-      name: "Acme Inc",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
-  ],
   navMain: [
     {
       title: "Home",
