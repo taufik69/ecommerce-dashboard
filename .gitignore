@@ -24,8 +24,3 @@ dist-ssr
 *.sw?
 
 .early.coverage
-
-.env
-/src/admin
-/src/api
-.vercel
