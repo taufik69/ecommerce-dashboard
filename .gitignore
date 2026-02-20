@@ -26,3 +26,5 @@ dist-ssr
 .early.coverage
 
 .env
+/src/admin
+/src/api
