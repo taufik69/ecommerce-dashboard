@@ -238,7 +238,7 @@ export default function CategoryTable() {
     navigate("/edit-category", { state: { category: cat } });
 
   const handleDelete = (slug) => {
-    categoryDeleteMutation.mutate(slug, {
+    categoryDeleteMutation.mutate(slug.slug, {
       onSuccess: () => toast.success("Category deleted successfully."),
       onError: (err) =>
         toast.error(err?.response?.data?.message || "Delete failed."),
@@ -456,7 +456,7 @@ export default function CategoryTable() {
                           isHovered={hoveredRow === (cat._id || cat.slug)}
                           onHover={setHoveredRow}
                           onEdit={() => handleEdit(cat)}
-                          onDelete={() => handleDelete(cat.slug)}
+                          onDelete={() => handleDelete(cat)}
                           isDeleting={categoryDeleteMutation.isPending}
                         />
                       ))}

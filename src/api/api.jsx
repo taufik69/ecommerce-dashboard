@@ -117,7 +117,10 @@ export const deleteProductImage = () => {
 export const uploadProductImage = () => {
   return useMutation({
     mutationFn: (data) => {
-      return api.post(`/product/upload-product-image/${data.slug}`, data.formData);
+      return api.post(
+        `/product/upload-product-image/${data.slug}`,
+        data.formData,
+      );
     },
     onSuccess: (data) => {
       console.log(data);
