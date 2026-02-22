@@ -455,8 +455,8 @@ export default function CategoryTable() {
                           index={startIndex + i}
                           isHovered={hoveredRow === (cat._id || cat.slug)}
                           onHover={setHoveredRow}
-                          onEdit={handleEdit}
-                          onDelete={handleDelete}
+                          onEdit={() => handleEdit(cat)}
+                          onDelete={() => handleDelete(cat.slug)}
                           isDeleting={categoryDeleteMutation.isPending}
                         />
                       ))}
